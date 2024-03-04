@@ -20,7 +20,8 @@ openpyxl: Para la manipulación de archivos Excel.
 sqlite3: Biblioteca estándar de Python para la gestión de bases de datos SQLite.
 Puedes instalar estas dependencias utilizando pip, el gestor de paquetes de Python. Ejecuta el siguiente comando en tu terminal:
 
-Copy code
+copia el codigo: 
+
 pip install PyQt5 openpyxl
 
 Uso
@@ -30,6 +31,7 @@ Clona el repositorio o descarga el archivo ZIP.
 Navega al directorio donde se encuentra el código fuente de la aplicación.
 Ejecuta el archivo main.py con Python:
 css
-Copy code
+copia el codigo: 
+
 python main.py
 La aplicación se iniciará y podrás comenzar a gestionar tus hábitos diarios.
