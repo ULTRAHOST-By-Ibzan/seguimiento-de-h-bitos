@@ -1,0 +1,20 @@
+Requisitos de Instalación
+
+La aplicación "Hábitos por IBZAN By ULTRAHOST" requiere las siguientes bibliotecas y dependencias para su correcto funcionamiento:
+
+PyQt5: Biblioteca de Python que proporciona enlaces para la creación de aplicaciones de escritorio con la plataforma Qt. Puede instalarse a través del gestor de paquetes pip con el siguiente comando:
+
+Copy code
+pip install PyQt5
+openpyxl: Biblioteca de Python utilizada para interactuar con archivos de Excel (.xlsx). Se emplea para generar informes en formato Excel. Se puede instalar mediante pip:
+
+Copy code
+pip install openpyxl
+sqlite3: Módulo de Python para interactuar con bases de datos SQLite. Es parte de la biblioteca estándar de Python y no necesita instalación adicional.
+
+datetime: Módulo de Python que proporciona clases para manipular fechas y horas de forma sencilla y eficiente. Forma parte de la biblioteca estándar de Python y no requiere instalación adicional.
+
+os: Módulo de Python que proporciona una interfaz para interactuar con el sistema operativo. Está incluido en la biblioteca estándar de Python y no necesita instalación aparte.
+
+Una vez instaladas las dependencias anteriores, la aplicación estará lista para su uso. Es importante asegurarse de que Python esté instalado correctamente en el sistema antes de proceder con la instalación de las bibliotecas mencionadas.
+
