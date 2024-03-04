@@ -34,7 +34,7 @@ import openpyxl
 
 
 class Calendar(QWidget):
-    # keep the current time as class variable for reference
+    # mantener la hora actual como variable de clase para referencia
     currentDay = str(datetime.now().day).rjust(2, "0")
     currentMonth = str(datetime.now().month).rjust(2, "0")
     currentYear = str(datetime.now().year).rjust(2, "0")
@@ -44,37 +44,37 @@ class Calendar(QWidget):
         folder = path.dirname(__file__)
         self.icon_folder = path.join(folder, "icons")
 
-        self.setWindowTitle("hábitos  por IBZAN By ULTRAHOST")
+        self.setWindowTitle("Hábitos por IBZAN By ULTRAHOST")
         self.setWindowIcon(QtGui.QIcon(path.join(self.icon_folder, "window.png")))
 
         self.initUI()
 
-        # Apply Fusion style
+        # Aplicar estilo Fusion
         app.setStyle("Fusion")
 
     def initUI(self):
         self.calendar = QCalendarWidget()
         self.calendar.setGridVisible(True)
 
-        # format for dates in calendar that have events
+        # formato para fechas en el calendario que tienen eventos
         self.fmt = QTextCharFormat()
         self.fmt.setBackground(QColor(255, 165, 0, 100))
 
-        # format for the current day
+        # formato para el día actual
         cur_day_fmt = QTextCharFormat()
         cur_day_fmt.setBackground(QColor(0, 255, 90, 70))
 
-        # format to change back to if all events are deleted
+        # formato para cambiar de nuevo si se eliminan todos los eventos
         self.delfmt = QTextCharFormat()
         self.delfmt.setBackground(Qt.transparent)
 
-        # SQLite database connection
+        # Conexión a la base de datos SQLite
         self.conn = sqlite3.connect('main.db')
         self.cursor = self.conn.cursor()
         self.create_table()
 
-        # organize buttons and layouts for display
-        self.addButton = QPushButton("+ Habito")
+        # organizar botones y diseños para mostrar
+        self.addButton = QPushButton("+ Hábito")
         self.editButton = QPushButton("Editar")
         self.delButton = QPushButton("Eliminar")
         self.reportButton = QPushButton("Reporte")
@@ -84,7 +84,7 @@ class Calendar(QWidget):
         self.note_group.setSortingEnabled(True)
         self.note_group.setStyleSheet("QListView::item {height: 40px;}")
 
-        todayButton = QPushButton("Today")
+        todayButton = QPushButton("Hoy")
         self.label = QLabel()
 
         labelp = QLabel()
@@ -111,7 +111,7 @@ class Calendar(QWidget):
         self.progress_bar.setMinimum(0)
         self.progress_bar.setMaximum(100)
         self.progress_bar.setValue(0)
-        self.progress_bar.setFormat("DIA: %p%")
+        self.progress_bar.setFormat("DÍA: %p%")
 
         self.progress_bar_mes = QProgressBar()
         self.progress_bar_mes.setMinimum(0)
@@ -136,7 +136,7 @@ class Calendar(QWidget):
         vbox_bottom.addWidget(self.lcd)
         self.setLayout(vbox_bottom)
 
-        # Connect signals and slots
+        # Conectar señales y ranuras
         self.addButton.clicked.connect(self.addHabit)
         self.editButton.clicked.connect(self.editHabit)
         self.delButton.clicked.connect(self.deleteHabit)
@@ -148,10 +148,10 @@ class Calendar(QWidget):
         self.calendar.selectionChanged.connect(self.toggleAddEditDeleteButtons)
         self.note_group.itemChanged.connect(self.toggleHabitCompletion)
 
-        # Show current month's habits
+        # Mostrar hábitos del mes actual
         self.showDateInfo()
 
-        # Set up timer for the clock
+        # Configurar temporizador para el reloj
         timer = QTimer(self)
         timer.timeout.connect(self.showTime)
         timer.start(1000)
@@ -162,7 +162,7 @@ class Calendar(QWidget):
         self.conn.commit()
 
     def addHabit(self):
-        # Function to add habit
+        # Función para agregar hábito
         habit_name, ok = QInputDialog.getText(self, "Agregar hábito", "Ingrese el nombre del hábito:")
 
         if ok and habit_name:
@@ -179,7 +179,7 @@ class Calendar(QWidget):
             self.showDateInfo()
 
     def editHabit(self):
-        # Function to edit habit
+        # Función para editar hábito
         item = self.note_group.currentItem()
         if item:
             new_habit_name, ok = QInputDialog.getText(self, "Editar hábito", "Ingrese el nombre del hábito:", text=item.text())
@@ -190,18 +190,18 @@ class Calendar(QWidget):
                 self.showDateInfo()
 
     def deleteHabit(self):
-        # Function to delete habit
+        # Función para eliminar hábito
         item = self.note_group.currentItem()
         if item:
             habit_name = item.text()
-            reply = QMessageBox.question(self, "Eliminar Habit", f"¿Eliminar el habito '{habit_name}'?", QMessageBox.Yes | QMessageBox.No)
+            reply = QMessageBox.question(self, "Eliminar Hábito", f"¿Eliminar el hábito '{habit_name}'?", QMessageBox.Yes | QMessageBox.No)
             if reply == QMessageBox.Yes:
                 self.cursor.execute("DELETE FROM habits WHERE habit=?", (habit_name,))
                 self.conn.commit()
                 self.showDateInfo()
 
     def toggleHabitCompletion(self, item):
-        # Function to toggle habit completion
+        # Función para cambiar la completitud del hábito
         habit_name = item.text()
         completed = 1 if item.checkState() == Qt.Checked else 0
         date = self.calendar.selectedDate().toString("ddMMyyyy")
@@ -210,7 +210,7 @@ class Calendar(QWidget):
         self.updateProgressBar()
 
     def showDateInfo(self):
-        # Function to display habits for selected date
+        # Función para mostrar hábitos para la fecha seleccionada
         self.note_group.clear()
         date = self.calendar.selectedDate().toString("ddMMyyyy")
         self.cursor.execute("SELECT habit, completed FROM habits WHERE date=?", (date,))
@@ -220,7 +220,7 @@ class Calendar(QWidget):
             item = QListWidgetItem(habit_name)
             if completed:
                 item.setCheckState(Qt.Checked)
-                item.setBackground(Qt.green)  # Set green background for completed habits
+                item.setBackground(Qt.green)  # Establecer fondo verde para hábitos completados
             else:
                 item.setCheckState(Qt.Unchecked)
             self.note_group.addItem(item)
@@ -230,13 +230,13 @@ class Calendar(QWidget):
         self.calendar.setSelectedDate(QDate.currentDate())
 
     def toggleAddEditDeleteButtons(self):
-        # Enable/disable buttons based on selection
+        # Habilitar/deshabilitar botones según la selección
         enabled = self.calendar.selectedDate() >= QDate.currentDate()
         for button in [self.addButton, self.editButton, self.delButton, self.reportButton, self.viewButton]:
             button.setEnabled(enabled)
 
     def labelDate(self):
-        # Set label to show the long name form of the selected date
+        # Establecer etiqueta para mostrar la forma larga de la fecha seleccionada
         select = self.calendar.selectedDate()
         weekday, month = select.dayOfWeek(), select.month()
         day, year = str(select.day()), str(select.year())
@@ -244,18 +244,18 @@ class Calendar(QWidget):
         self.label.setText(week_day + ", " + word_month + " " + day + ", " + year)
 
     def highlightFirstItem(self):
-        # Highlight the first item immediately after switching selection
+        # Resaltar el primer elemento inmediatamente después de cambiar la selección
         if self.note_group.count() > 0:
             self.note_group.setCurrentRow(0)
 
     def showTime(self):
-        # Keep the current time updated
+        # Mantener actualizada la hora actual
         time = QTime.currentTime()
         text = time.toString("hh:mm:ss")
         self.lcd.display(text)
 
     def updateProgressBar(self):
-        # Update progress bar based on completion status of habits
+        # Actualizar la barra de progreso según el estado de completitud de los hábitos
         total_habits = self.note_group.count()
         completed_habits = sum(1 for i in range(total_habits) if self.note_group.item(i).checkState() == Qt.Checked)
         if total_habits > 0:
@@ -264,7 +264,7 @@ class Calendar(QWidget):
         else:
             self.progress_bar.setValue(0)
 
-        # Update monthly progress bar
+        # Actualizar barra de progreso mensual
         current_date = datetime.now()
         start_date = current_date.replace(day=1)
         end_date = current_date.replace(day=1, month=current_date.month+1) - timedelta(days=1)
@@ -340,14 +340,14 @@ class Calendar(QWidget):
             wb = Workbook()
             ws = wb.active
 
-            # Write header row with dates
+            # Escribir fila de encabezado con fechas
             header_row = ["Fecha"]
             dates = sorted(list(set(date for habit_data in data.values() for date in habit_data.keys())))
             header_row.extend(dates)
             header_row.append("Porcentaje Completado")
             ws.append(header_row)
 
-            # Write habit rows
+            # Escribir filas de hábitos
             for habit_name, habit_data in data.items():
                 row = [habit_name]
                 for date in dates:
@@ -358,7 +358,7 @@ class Calendar(QWidget):
                 row.append(percentage_completed)
                 ws.append(row)
 
-            # Apply conditional formatting
+            # Aplicar formato condicional
             for row in ws.iter_rows(min_row=2, max_col=len(header_row), max_row=len(data) + 1):
                 for cell in row:
                     if cell.value == "Sí":
@@ -425,7 +425,7 @@ class Calendar(QWidget):
         msg_box.exec_()
 
     def closeEvent(self, e):
-        # Close the database connection
+        # Cerrar la conexión a la base de datos
         self.conn.close()
         e.accept()
 
